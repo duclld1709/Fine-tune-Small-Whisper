@@ -11,13 +11,14 @@ num_epochs: 7
 max_steps: 6500
 warmup_steps: 300
 save_steps: 500
-eval_steps: 10
+eval_steps: 500
 logging_steps: 25
 gradient_accumulation_steps: 4 #P100:16; 2
 fp16: true
 
 # Input Kaggle Dataset
 dataset_path: "/kaggle/input/vimd-whisper-autotruncate/vimd-whisper-autotruncate"
+
 
 
 
