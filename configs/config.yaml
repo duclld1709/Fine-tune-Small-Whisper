@@ -7,17 +7,18 @@ dataset_name: "nguyendv02/ViMD_Dataset"
 output_dir: "/kaggle/working/whisper-small-finetune-checkpoints"
 batch_size: 4 # P100:1; 16
 learning_rate: 1.0e-5
-num_epochs: 5
-max_steps: 3000
+num_epochs: 7
+max_steps: 6500
 warmup_steps: 300
 save_steps: 500
 eval_steps: 500
 logging_steps: 25
-gradient_accumulation_steps: 2 #P100:16; 2
+gradient_accumulation_steps: 4 #P100:16; 2
 fp16: true
 
 # Input Kaggle Dataset
 dataset_path: "/kaggle/input/vimd-whisper-autotruncate/vimd-whisper-autotruncate"
+
 
 
 
