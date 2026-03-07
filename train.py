@@ -18,7 +18,7 @@ def main():
     model = WhisperForConditionalGeneration.from_pretrained(cfg['model_name'])
 
     model.config.forced_decoder_ids = None
-    model.config.suppress_tokens = []
+    model.generation_config.suppress_tokens = []
     model.config.use_cache = False  
 
     # 3. Prepare Data
@@ -83,6 +83,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
