@@ -1,0 +1,10 @@
+torch>=2.0.0
+torchaudio>=2.0.0
+datasets>=2.14.0
+sentencepiece>=0.1.99
+jiwer>=3.0.0
+tqdm>=4.65.0
+transformers>=4.30.0
+wandb>=0.16.0
+soundfile>=0.12.1
+scipy>=1.11.0

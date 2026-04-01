@@ -1,0 +1,1 @@
+Code eval được đặt trong thư mục finetune/SqueezeFomer/src luôn ạ!
