@@ -1,48 +1,48 @@
 ## Whisper Small Fine-tuning on Kaggle (ViMD Dataset)
 
-Dự án này dùng để **fine-tune mô hình Whisper Small** trên môi trường **Kaggle Notebook**. Toàn bộ cấu trúc và lệnh được tối ưu để có thể clone về và chạy trực tiếp.
+This project is designed to **fine-tune the Whisper Small model** in a **Kaggle Notebook environment**. The structure and commands are optimized so you can clone the repository and run it directly.
 
 ---
 
-## Chuẩn bị Dataset
+## Dataset Preparation
 
-Trước khi chạy notebook, cần thêm dataset vào Kaggle:
+Before running the notebook, you need to add the dataset to Kaggle:
 
-1. Dataset ví dụ:
+1. Example dataset:
    `ilewanducki/vimd-whisper-autotruncate`
 
-2. Dataset này gồm **3 tập dữ liệu**:
+2. The dataset contains **three splits**:
 
    * `train`
    * `validation`
    * `test`
 
-3. Mỗi tập dữ liệu là kết quả của quá trình:
+3. Each split is generated through:
 
-   * Load audio
-   * Trích xuất feature
-   * Lưu bằng `save_to_disk()` → sinh ra file **Arrow**
+   * Loading audio
+   * Extracting features
+   * Saving with `save_to_disk()` → produces **Arrow files**
 
-4. Quy trình tạo dataset:
+4. Dataset creation workflow:
 
-   * Xem script preprocess (xem `src/data_loader.py`)
-   * Tạo 3 thư mục dataset
-   * Gom vào một thư mục tổng
-   * Nén lại và upload lên Kaggle dưới dạng Dataset
+   * Refer to the preprocessing script (`src/data_loader.py`)
+   * Create three dataset directories
+   * Combine them into a single root folder
+   * Compress and upload to Kaggle as a Dataset
 
 ---
 
-## Cài đặt Dependencies
+## Install Dependencies
 
-Trên Kaggle, PyTorch thường đã được cài sẵn. Tuy nhiên vẫn ghi lại để xử lý xung đột khi cần.
+On Kaggle, PyTorch is usually preinstalled. The command below is provided in case of version conflicts.
 
-### PyTorch (thường không cần chạy)
+### PyTorch (usually not required)
 
 ```bash
 pip install torch==2.8.0+cu126 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu126
 ```
 
-### Thư viện còn lại
+### Other Libraries
 
 ```bash
 pip install transformers datasets evaluate jiwer pyyaml soundfile wandb
@@ -51,12 +51,12 @@ pip install --upgrade -q wandb
 
 ---
 
-## Cấu hình Weights & Biases (wandb)
+## Configure Weights & Biases (wandb)
 
-Do Kaggle có thể dùng bản wandb cũ, cần:
+Since Kaggle may use an older version of wandb:
 
-1. **Restart & Clear Output** trong tab Run
-2. Đăng nhập bằng API Key:
+1. Click **Restart & Clear Output** in the Run tab
+2. Log in using your API key:
 
 ```python
 import os
@@ -84,15 +84,15 @@ os.environ["WANDB_ENTITY"] = "dat301_ai1802"
 
 ---
 
-## Chạy Training
+## Run Training
 
-### GPU P100 (1 GPU)
+### Single GPU (P100)
 
 ```bash
 !python train.py
 ```
 
-### GPU T4 x2 (Multi-GPU)
+### Multi-GPU (2× T4)
 
 ```bash
 !torchrun --nproc_per_node=2 train.py
@@ -100,35 +100,36 @@ os.environ["WANDB_ENTITY"] = "dat301_ai1802"
 
 ---
 
-## Cấu trúc Thư mục Dự án
+## Project Structure
 
 ```
 whisper-finetune/
 ├── configs/
-│   └── config.yaml        # Hyperparameters, training args, đường dẫn dataset
+│   └── config.yaml        # Hyperparameters, training args, dataset paths
 │
 ├── src/
 │   ├── __init__.py
-│   ├── data_loader.py     # Load dataset, audio preprocessing, data collator
-│   └── metrics.py         # Tính Word Error Rate (WER)
+│   ├── data_loader.py     # Dataset loading, audio preprocessing, data collator
+│   └── metrics.py         # Word Error Rate (WER) computation
 │
-├── train.py               # Entry point để chạy training
-├── requirements.txt       # Danh sách thư viện
-└── README.md              # Tài liệu hướng dẫn
+├── train.py               # Training entry point
+├── requirements.txt       # Dependencies list
+├── report.pdf             # Research-Based report of the whole projects
+├── others/                # Demo, fine-tune and eval of others models from team members
+└── README.md              # Documentation
 ```
 
 ---
 
-## Ghi chú
+## Notes
 
-* Dataset cần **feature extraction trước**, không dùng audio raw.
-* wandb bắt buộc nếu muốn theo dõi loss / WER trực quan.
-* Multi-GPU chỉ cần khi dataset lớn hoặc muốn rút ngắn thời gian train.
-* `config.yaml` là nơi điều chỉnh:
+* The dataset must be **preprocessed with feature extraction** (raw audio is not used).
+* wandb is required if you want to track loss and WER visually.
+* Multi-GPU is recommended for large datasets or faster training.
+* `config.yaml` is where you configure:
 
   * batch size
   * learning rate
-  * số epoch
-  * đường dẫn dataset
-  * logging / save steps
-
+  * number of epochs
+  * dataset paths
+  * logging and checkpoint saving steps
