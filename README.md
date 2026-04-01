@@ -1,4 +1,4 @@
-## Whisper Small Fine-tuning on Kaggle (ViMD Dataset)
+## Whisper Small Fine-tuning on Kaggle with ViMD Dataset
 
 This project is designed to **fine-tune the Whisper Small model** in a **Kaggle Notebook environment**. The structure and commands are optimized so you can clone the repository and run it directly.
 
